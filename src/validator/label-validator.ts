@@ -15,10 +15,8 @@ export class LabelValidator {
     if (!result.success) throw new ApiError(z.prettifyError(result.error), 400);
   }
 
-  public static update(accountId: string, createLabel: LabelPrisma) {
-    if (createLabel.accountId !== accountId) throw new ApiError("Your account is not able to make change on this element", 403);
+  public static update(createLabel: Partial<LabelPrisma>) {
     const result = createLabelSchema.safeParse(createLabel);
-
     if (!result.success) throw new ApiError(z.prettifyError(result.error), 400);
   }
 

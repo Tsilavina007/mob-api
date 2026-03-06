@@ -27,10 +27,8 @@ export class TransactionValidator {
     if (!result.success) throw new BadRequestError(z.prettifyError(result.error));
   }
 
-  public static update(accountId: string, createTransaction: CreationTransaction) {
-    if (createTransaction.accountId !== accountId) throw new ApiError("Your account is not able to make change on this element", 403);
+  public static update(createTransaction: z.infer<typeof createTransactionSchema>) {
     const result = createTransactionSchema.safeParse(createTransaction);
-
     if (!result.success) throw new BadRequestError(z.prettifyError(result.error));
   }
 

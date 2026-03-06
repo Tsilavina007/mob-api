@@ -54,8 +54,7 @@ export class GoalValidator {
     if (!result.success) throw new BadRequestError(z.prettifyError(result.error));
   }
 
-  public static update(accountId: string, createGoal: GoalPrisma) {
-    if (createGoal.accountId !== accountId) throw new ApiError("Your account is not able to make change on this element", 403);
+  public static update(createGoal: Partial<GoalPrisma>) {
     const result = createGoalSchema.safeParse(createGoal);
     if (!result.success) throw new BadRequestError(z.prettifyError(result.error));
   }
