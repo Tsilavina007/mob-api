@@ -2,11 +2,12 @@
 
 ## Properties
 
-| Name      | Type   |
-| --------- | ------ |
-| `name`    | string |
-| `color`   | string |
-| `iconRef` | string |
+| Name        | Type   |
+| ----------- | ------ |
+| `name`      | string |
+| `color`     | string |
+| `iconRef`   | string |
+| `accountId` | string |
 
 ## Example
 
@@ -18,6 +19,7 @@ const example = {
   "name": FOOD,
   "color": #00ff00,
   "iconRef": null,
+  "accountId": null,
 } satisfies CreationLabel
 
 console.log(example)

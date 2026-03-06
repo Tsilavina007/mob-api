@@ -2,12 +2,13 @@
 
 ## Properties
 
-| Name      | Type   |
-| --------- | ------ |
-| `name`    | string |
-| `color`   | string |
-| `iconRef` | string |
-| `id`      | string |
+| Name        | Type   |
+| ----------- | ------ |
+| `name`      | string |
+| `color`     | string |
+| `iconRef`   | string |
+| `accountId` | string |
+| `id`        | string |
 
 ## Example
 
@@ -19,6 +20,7 @@ const example = {
   "name": FOOD,
   "color": #00ff00,
   "iconRef": null,
+  "accountId": null,
   "id": null,
 } satisfies Label
 

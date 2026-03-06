@@ -42,6 +42,12 @@ export interface Label {
    * @type {string}
    * @memberof Label
    */
+  accountId?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Label
+   */
   id?: string;
 }
 
@@ -64,6 +70,7 @@ export function LabelFromJSONTyped(json: any, ignoreDiscriminator: boolean): Lab
     name: json["name"] == null ? undefined : json["name"],
     color: json["color"] == null ? undefined : json["color"],
     iconRef: json["iconRef"] == null ? undefined : json["iconRef"],
+    accountId: json["accountId"] == null ? undefined : json["accountId"],
     id: json["id"] == null ? undefined : json["id"],
   };
 }
@@ -81,6 +88,7 @@ export function LabelToJSONTyped(value?: Label | null, ignoreDiscriminator: bool
     name: value["name"],
     color: value["color"],
     iconRef: value["iconRef"],
+    accountId: value["accountId"],
     id: value["id"],
   };
 }

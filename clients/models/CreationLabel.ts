@@ -37,6 +37,12 @@ export interface CreationLabel {
    * @memberof CreationLabel
    */
   iconRef?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof CreationLabel
+   */
+  accountId?: string;
 }
 
 /**
@@ -58,6 +64,7 @@ export function CreationLabelFromJSONTyped(json: any, ignoreDiscriminator: boole
     name: json["name"] == null ? undefined : json["name"],
     color: json["color"] == null ? undefined : json["color"],
     iconRef: json["iconRef"] == null ? undefined : json["iconRef"],
+    accountId: json["accountId"] == null ? undefined : json["accountId"],
   };
 }
 
@@ -74,5 +81,6 @@ export function CreationLabelToJSONTyped(value?: CreationLabel | null, ignoreDis
     name: value["name"],
     color: value["color"],
     iconRef: value["iconRef"],
+    accountId: value["accountId"],
   };
 }

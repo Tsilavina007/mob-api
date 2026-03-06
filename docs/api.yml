@@ -1180,6 +1180,9 @@ components:
           default: "#00ff00"
         iconRef:
           type: string
+        accountId:
+          type: string
+          format: uuid
     Label:
       type: object
       allOf:

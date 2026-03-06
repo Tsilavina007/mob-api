@@ -2761,6 +2761,10 @@
           },
           "iconRef": {
             "type": "string"
+          },
+          "accountId": {
+            "format": "uuid",
+            "type": "string"
           }
         },
         "type": "object"
