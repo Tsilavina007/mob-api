@@ -2590,6 +2590,15 @@
               "id": {
                 "format": "uuid",
                 "type": "string"
+              },
+              "rate": {
+                "example": "25%",
+                "type": "string"
+              },
+              "savedAmount": {
+                "default": 0,
+                "example": 250,
+                "type": "number"
               }
             },
             "type": "object",

@@ -73,6 +73,18 @@ export interface Goal {
    * @memberof Goal
    */
   id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Goal
+   */
+  rate?: string;
+  /**
+   *
+   * @type {number}
+   * @memberof Goal
+   */
+  savedAmount?: number;
 }
 
 /**
@@ -100,6 +112,8 @@ export function GoalFromJSONTyped(json: any, ignoreDiscriminator: boolean): Goal
     color: json["color"] == null ? undefined : json["color"],
     iconRef: json["iconRef"] == null ? undefined : json["iconRef"],
     id: json["id"] == null ? undefined : json["id"],
+    rate: json["rate"] == null ? undefined : json["rate"],
+    savedAmount: json["savedAmount"] == null ? undefined : json["savedAmount"],
   };
 }
 
@@ -122,5 +136,7 @@ export function GoalToJSONTyped(value?: Goal | null, ignoreDiscriminator: boolea
     color: value["color"],
     iconRef: value["iconRef"],
     id: value["id"],
+    rate: value["rate"],
+    savedAmount: value["savedAmount"],
   };
 }

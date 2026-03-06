@@ -1069,6 +1069,13 @@ components:
         id:
           type: string
           format: uuid
+        rate:
+          type: string
+          example: "25%"
+        savedAmount:
+          type: number
+          default: 0
+          example: 250
     CreationTransaction:
       type: object
       properties:
