@@ -1078,7 +1078,6 @@ components:
           example: 250
         remaining:
           type: number
-          description: Montant restant à atteindre (calculé automatiquement : amount - savedAmount)
           example: 750
     CreationTransaction:
       type: object
