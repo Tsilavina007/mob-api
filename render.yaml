@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: mob-api
+    runtime: node
+    # prisma db push is used instead of migrate deploy because the existing
+    # migration history was generated for SQLite (DATETIME types, etc.) and
+    # is not directly compatible with PostgreSQL. db push derives PostgreSQL-
+    # compatible DDL from the schema for a clean initial deployment.
+    buildCommand: npm install && npm run build && npx prisma db push
+    startCommand: npm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: mob-api-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: PORT
+        value: 8080
+
+databases:
+  - name: mob-api-db
+    databaseName: mob_api
+    user: mob_api_user
+    plan: free
