@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: mob-api
+    runtime: docker
+    plan: free
+    dockerfile: ./Dockerfile
+    dockerCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: DATABASE_URL
+        fromDatabase:
+          name: mob-api-db
+          property: connectionString
+      - key: JWT_SECRET
+        sync: false
+
+databases:
+  - name: mob-api-db
+    engine: postgresql
+    plan: free
+    ipAllowList: []
