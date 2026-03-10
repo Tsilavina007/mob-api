@@ -2,13 +2,14 @@
 
 All URIs are relative to _http://localhost:8080_
 
-| Method                                          | HTTP request                                                          | Description                                 |
-| ----------------------------------------------- | --------------------------------------------------------------------- | ------------------------------------------- |
-| [**archiveOneGoal**](GoalApi.md#archiveonegoal) | **POST** /account/{accountId}/wallet/{walletId}/goal/{goalId}/archive | Archive one label by id                     |
-| [**createOneGoal**](GoalApi.md#createonegoal)   | **POST** /account/{accountId}/wallet/{walletId}/goal                  | create new goal for one account             |
-| [**getAllGoals**](GoalApi.md#getallgoals)       | **GET** /account/{accountId}/goal                                     | Get all disponibles goal of one account     |
-| [**getOneGoal**](GoalApi.md#getonegoal)         | **GET** /account/{accountId}/wallet/{walletId}/goal/{goalId}          | Get one goal of one account by it\&#39;s id |
-| [**updateOneGoal**](GoalApi.md#updateonegoal)   | **PUT** /account/{accountId}/wallet/{walletId}/goal/{goalId}          | update one goal of one account              |
+| Method                                              | HTTP request                                                            | Description                                 |
+| --------------------------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------- |
+| [**archiveOneGoal**](GoalApi.md#archiveonegoal)     | **POST** /account/{accountId}/wallet/{walletId}/goal/{goalId}/archive   | Archive one label by id                     |
+| [**createOneGoal**](GoalApi.md#createonegoal)       | **POST** /account/{accountId}/wallet/{walletId}/goal                    | create new goal for one account             |
+| [**getAllGoals**](GoalApi.md#getallgoals)           | **GET** /account/{accountId}/goal                                       | Get all disponibles goal of one account     |
+| [**getOneGoal**](GoalApi.md#getonegoal)             | **GET** /account/{accountId}/wallet/{walletId}/goal/{goalId}            | Get one goal of one account by it\&#39;s id |
+| [**unarchiveOneGoal**](GoalApi.md#unarchiveonegoal) | **POST** /account/{accountId}/wallet/{walletId}/goal/{goalId}/unarchive | Unarchive one goal by id                    |
+| [**updateOneGoal**](GoalApi.md#updateonegoal)       | **PUT** /account/{accountId}/wallet/{walletId}/goal/{goalId}            | update one goal of one account              |
 
 ## archiveOneGoal
 
@@ -150,7 +151,7 @@ No authorization required
 
 ## getAllGoals
 
-> GetAllGoals200Response getAllGoals(accountId, walletId, name, minAmount, maxAmount, startingDateBeginning, startingDateEnding, endingDateBeginning, endingDateEnding, sort)
+> GetAllGoals200Response getAllGoals(accountId, walletId, name, minAmount, maxAmount, startingDateBeginning, startingDateEnding, endingDateBeginning, endingDateEnding, sort, isArchived)
 
 Get all disponibles goal of one account
 
@@ -188,6 +189,8 @@ async function example() {
     endingDateEnding: 2013-10-20T19:20:30+01:00,
     // 'asc' | 'desc' (optional)
     sort: sort_example,
+    // boolean (optional)
+    isArchived: true,
   } satisfies GetAllGoalsRequest;
 
   try {
@@ -216,6 +219,7 @@ example().catch(console.error);
 | **endingDateBeginning**   | `Date`        |             | [Optional] [Defaults to `undefined`]                   |
 | **endingDateEnding**      | `Date`        |             | [Optional] [Defaults to `undefined`]                   |
 | **sort**                  | `asc`, `desc` |             | [Optional] [Defaults to `undefined`] [Enum: asc, desc] |
+| **isArchived**            | `boolean`     |             | [Optional] [Defaults to `undefined`]                   |
 
 ### Return type
 
@@ -268,6 +272,75 @@ async function example() {
 
   try {
     const data = await api.getOneGoal(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+| Name          | Type     | Description | Notes                     |
+| ------------- | -------- | ----------- | ------------------------- |
+| **accountId** | `string` |             | [Defaults to `undefined`] |
+| **walletId**  | `string` |             | [Defaults to `undefined`] |
+| **goalId**    | `string` |             | [Defaults to `undefined`] |
+
+### Return type
+
+[**Goal**](Goal.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+| ----------- | ----------- | ---------------- |
+| **200**     | OK          | -                |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+## unarchiveOneGoal
+
+> Goal unarchiveOneGoal(accountId, walletId, goalId)
+
+Unarchive one goal by id
+
+### Example
+
+```ts
+import {
+  Configuration,
+  GoalApi,
+} from '';
+import type { UnarchiveOneGoalRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const api = new GoalApi();
+
+  const body = {
+    // string
+    accountId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // string
+    walletId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // string
+    goalId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+  } satisfies UnarchiveOneGoalRequest;
+
+  try {
+    const data = await api.unarchiveOneGoal(body);
     console.log(data);
   } catch (error) {
     console.error(error);

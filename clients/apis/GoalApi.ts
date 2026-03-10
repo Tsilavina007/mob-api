@@ -38,9 +38,16 @@ export interface GetAllGoalsRequest {
   endingDateBeginning?: Date;
   endingDateEnding?: Date;
   sort?: GetAllGoalsSortEnum;
+  isArchived?: boolean;
 }
 
 export interface GetOneGoalRequest {
+  accountId: string;
+  walletId: string;
+  goalId: string;
+}
+
+export interface UnarchiveOneGoalRequest {
   accountId: string;
   walletId: string;
   goalId: string;
@@ -206,6 +213,10 @@ export class GoalApi extends runtime.BaseAPI {
       queryParameters["sort"] = requestParameters["sort"];
     }
 
+    if (requestParameters["isArchived"] != null) {
+      queryParameters["isArchived"] = requestParameters["isArchived"];
+    }
+
     const headerParameters: runtime.HTTPHeaders = {};
 
     let urlPath = `/account/{accountId}/goal`;
@@ -285,6 +296,57 @@ export class GoalApi extends runtime.BaseAPI {
    */
   async getOneGoal(requestParameters: GetOneGoalRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Goal> {
     const response = await this.getOneGoalRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+
+  /**
+   * Creates request options for unarchiveOneGoal without sending the request
+   */
+  async unarchiveOneGoalRequestOpts(requestParameters: UnarchiveOneGoalRequest): Promise<runtime.RequestOpts> {
+    if (requestParameters["accountId"] == null) {
+      throw new runtime.RequiredError("accountId", 'Required parameter "accountId" was null or undefined when calling unarchiveOneGoal().');
+    }
+
+    if (requestParameters["walletId"] == null) {
+      throw new runtime.RequiredError("walletId", 'Required parameter "walletId" was null or undefined when calling unarchiveOneGoal().');
+    }
+
+    if (requestParameters["goalId"] == null) {
+      throw new runtime.RequiredError("goalId", 'Required parameter "goalId" was null or undefined when calling unarchiveOneGoal().');
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    let urlPath = `/account/{accountId}/wallet/{walletId}/goal/{goalId}/unarchive`;
+    urlPath = urlPath.replace(`{${"accountId"}}`, encodeURIComponent(String(requestParameters["accountId"])));
+    urlPath = urlPath.replace(`{${"walletId"}}`, encodeURIComponent(String(requestParameters["walletId"])));
+    urlPath = urlPath.replace(`{${"goalId"}}`, encodeURIComponent(String(requestParameters["goalId"])));
+
+    return {
+      path: urlPath,
+      method: "POST",
+      headers: headerParameters,
+      query: queryParameters,
+    };
+  }
+
+  /**
+   * Unarchive one goal by id
+   */
+  async unarchiveOneGoalRaw(requestParameters: UnarchiveOneGoalRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Goal>> {
+    const requestOptions = await this.unarchiveOneGoalRequestOpts(requestParameters);
+    const response = await this.request(requestOptions, initOverrides);
+
+    return new runtime.JSONApiResponse(response, (jsonValue) => GoalFromJSON(jsonValue));
+  }
+
+  /**
+   * Unarchive one goal by id
+   */
+  async unarchiveOneGoal(requestParameters: UnarchiveOneGoalRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Goal> {
+    const response = await this.unarchiveOneGoalRaw(requestParameters, initOverrides);
     return await response.value();
   }
 

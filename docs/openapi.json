@@ -1193,6 +1193,16 @@
               "type": "string"
             },
             "style": "form"
+          },
+          {
+            "explode": true,
+            "in": "query",
+            "name": "isArchived",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            },
+            "style": "form"
           }
         ],
         "responses": {
@@ -1451,6 +1461,64 @@
           }
         },
         "summary": "Archive one label by id",
+        "tags": ["goal"]
+      }
+    },
+    "/account/{accountId}/wallet/{walletId}/goal/{goalId}/unarchive": {
+      "post": {
+        "operationId": "unarchiveOneGoal",
+        "parameters": [
+          {
+            "explode": false,
+            "in": "path",
+            "name": "accountId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "style": "simple"
+          },
+          {
+            "explode": false,
+            "in": "path",
+            "name": "walletId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "style": "simple"
+          },
+          {
+            "explode": false,
+            "in": "path",
+            "name": "goalId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "style": "simple"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Goal"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Unarchive one goal by id",
         "tags": ["goal"]
       }
     },
@@ -2347,6 +2415,16 @@
         "explode": true,
         "in": "query",
         "name": "isActive",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        },
+        "style": "form"
+      },
+      "IsArchived": {
+        "explode": true,
+        "in": "query",
+        "name": "isArchived",
         "required": false,
         "schema": {
           "type": "boolean"
