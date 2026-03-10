@@ -7,6 +7,11 @@ import { DEFAULT_COLOR, calculatePagination } from "@/utilities";
 
 export class GoalMapper {
   public static toRest(goal: PrismaGoal) {
+    const savedAmount = goal.savedAmount || 0;
+    const amount = goal.amount || 0;
+    const remaining = amount - savedAmount;
+    const rate = amount > 0 ? `${Math.round((savedAmount / amount) * 100)}%` : "0%";
+
     const mapped: RestGoal = {
       id: goal.id,
       name: goal.name,
@@ -17,6 +22,9 @@ export class GoalMapper {
       accountId: goal.accountId,
       color: goal.color || DEFAULT_COLOR,
       iconRef: goal.iconRef,
+      savedAmount: savedAmount,
+      remaining: remaining,
+      rate: rate,
     };
     return mapped;
   }
@@ -25,6 +33,7 @@ export class GoalMapper {
     const mapped = {
       accountId,
       amount: goal.amount || 0,
+      savedAmount: goal.savedAmount || 0,
       color: goal.color || DEFAULT_COLOR,
       endingDate: new Date(goal.endingDate),
       startingDate: new Date(goal.startingDate),
