@@ -13,6 +13,9 @@
 | `color`        | string |
 | `iconRef`      | string |
 | `id`           | string |
+| `rate`         | string |
+| `savedAmount`  | number |
+| `remaining`    | number |
 
 ## Example
 
@@ -30,6 +33,9 @@ const example = {
   "color": null,
   "iconRef": null,
   "id": null,
+  "rate": 25%,
+  "savedAmount": 250,
+  "remaining": 750,
 } satisfies Goal
 
 console.log(example)

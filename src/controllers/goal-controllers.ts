@@ -36,7 +36,7 @@ export class GoalController {
     try {
       const { goalId } = req.params;
       const accountId = (req as any).account.id;
-      const data = await GoalServices.getOneById(accountId, goalId as string);
+      const data = await GoalServices.getOneById(accountId, goalId as string, true);
       res.json(GoalMapper.toRest(data));
     } catch (error) {
       next(error);
@@ -52,12 +52,32 @@ export class GoalController {
       next(error);
     }
   };
+  static readonly unarchiveOne: RequestHandler = async (req, res, next) => {
+    try {
+      const { goalId } = req.params;
+      const accountId = (req as any).account.id;
+      const data = await GoalServices.unarchiveOneById(accountId, goalId as string);
+      res.json(GoalMapper.toRest(data));
+    } catch (error) {
+      next(error);
+    }
+  };
   static readonly getAll: RequestHandler = async (req, res, next) => {
     try {
       const { page, pageSize } = req as any;
       const accountId = (req as any).account.id;
       GoalValidator.filters(req.query as any);
       const data = await GoalServices.getAll(accountId, { ...req.query, page, pageSize });
+      res.json(GoalMapper.toListResponse(data.values, { page, pageSize, elementCount: data.count }));
+    } catch (error) {
+      next(error);
+    }
+  };
+  static readonly getArchived: RequestHandler = async (req, res, next) => {
+    try {
+      const { page, pageSize } = req as any;
+      const accountId = (req as any).account.id;
+      const data = await GoalServices.getAll(accountId, { isArchived: true, page, pageSize });
       res.json(GoalMapper.toListResponse(data.values, { page, pageSize, elementCount: data.count }));
     } catch (error) {
       next(error);

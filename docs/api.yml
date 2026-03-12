@@ -419,6 +419,7 @@ paths:
         - $ref: "#/components/parameters/EndingDateBeginning"
         - $ref: "#/components/parameters/EndingDateEnding"
         - $ref: "#/components/parameters/Sort"
+        - $ref: "#/components/parameters/IsArchived"
       responses:
         "200":
           description: OK
@@ -518,6 +519,24 @@ paths:
         - $ref: "#/components/parameters/WalletId"
       summary: Archive one label by id
       operationId: archiveOneGoal
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Goal"
+  /account/{accountId}/wallet/{walletId}/goal/{goalId}/unarchive:
+    post:
+      tags:
+        - goal
+      parameters:
+        - $ref: "#/components/parameters/AccountId"
+        - $ref: "#/components/parameters/WalletId"
+        - $ref: "#/components/parameters/GoalId"
+      summary: Unarchive one goal by id
+      operationId: unarchiveOneGoal
       responses:
         "200":
           description: OK
@@ -898,6 +917,12 @@ components:
       in: query
       schema:
         type: boolean
+    IsArchived:
+      name: isArchived
+      required: false
+      in: query
+      schema:
+        type: boolean
     WalletType:
       name: walletType
       required: false
@@ -1069,6 +1094,16 @@ components:
         id:
           type: string
           format: uuid
+        rate:
+          type: string
+          example: "25%"
+        savedAmount:
+          type: number
+          default: 0
+          example: 250
+        remaining:
+          type: number
+          example: 750
     CreationTransaction:
       type: object
       properties:

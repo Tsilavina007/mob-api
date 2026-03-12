@@ -29,6 +29,7 @@ const filterSchema = z
       "SortBy should be one of : startingDate, endingDate, amount, createdAt",
     ),
     sort: z.refine((sort: string) => !sort || ["asc", "desc"].includes(sort), "SortBy should be one of : asc, desc"),
+    isArchived: z.union([z.boolean(), z.string()]).optional(),
   })
   .refine(
     ({ startingDateBeginning, startingDateEnding }: any) =>
@@ -73,7 +74,16 @@ export class GoalValidator {
   }
 
   public static filters(filters: Record<string, any>) {
-    const result = filterSchema.safeParse(filters);
-    if (!result.success) throw new BadRequestError(z.prettifyError(result.error));
+    const processedFilters = { ...filters };
+    if (processedFilters.isArchived !== undefined) {
+      if (typeof processedFilters.isArchived === "string") {
+        processedFilters.isArchived = processedFilters.isArchived === "true";
+      }
+    }
+    
+    const result = filterSchema.safeParse(processedFilters);
+    if (!result.success) {
+      throw new BadRequestError(z.prettifyError(result.error));
+    }
   }
 }
