@@ -23,9 +23,14 @@ export class GoalServices {
     return await getPrismaClient().goal.update({ data: GoalMapper.update(accountId, goal), where: { id: goal.id, accountId, walletId } });
   }
 
-  static async getOneById(accountId: string, id: string) {
+  static async getOneById(accountId: string, id: string, includeArchived = false) {
     const getGoalById = await getPrismaClient().goal.findFirst({ where: { id, accountId } });
-    if (!getGoalById || getGoalById.isArchived) throw new ApiError(`Goal with id=${id} not found`, 404);
+    if (!getGoalById) {
+      throw new ApiError(`Goal with id=${id} not found`, 404);
+    }
+    if (!includeArchived && getGoalById.isArchived) {
+      throw new ApiError(`Goal with id=${id} not found`, 404);
+    }
     return getGoalById;
   }
   static async archiveOneById(accountId: string, id: string) {
@@ -44,6 +49,8 @@ export class GoalServices {
   static async getAll(accountId: string, query: GoalFilters) {
     const { page, pageSize, name = "", walletId, startingDateBeginning, endingDateBeginning, endingDateEnding, startingDateEnding, sort, sortBy, maxAmount, minAmount, isArchived } = query;
 
+    const isArchivedFilter = isArchived !== undefined ? isArchived : false;
+
     const where = {
       accountId,
       ...filterIfNotNull("walletId", walletId),
@@ -51,7 +58,7 @@ export class GoalServices {
       endingDate: { ...filterIfNotNullDate("gte", startingDateBeginning), ...filterIfNotNullDate("lte", startingDateEnding) },
       startingDate: { ...filterIfNotNullDate("gte", endingDateBeginning), ...filterIfNotNullDate("lte", endingDateEnding) },
       amount: { ...filterIfNotNullNumber("gte", minAmount), ...filterIfNotNullNumber("lte", maxAmount) },
-      ...filterIfNotNull("isArchived", isArchived !== undefined ? isArchived : false),
+      isArchived: isArchivedFilter,
     };
 
     const values = await getPrismaClient().goal.findMany({

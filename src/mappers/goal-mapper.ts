@@ -25,6 +25,7 @@ export class GoalMapper {
       savedAmount: savedAmount,
       remaining: remaining,
       rate: rate,
+      isArchived: goal.isArchived,
     };
     return mapped;
   }

@@ -91,6 +91,12 @@ export interface Goal {
    * @memberof Goal
    */
   remaining?: number;
+  /**
+   *
+   * @type {boolean}
+   * @memberof Goal
+   */
+  isArchived?: boolean;
 }
 
 /**
@@ -121,6 +127,7 @@ export function GoalFromJSONTyped(json: any, ignoreDiscriminator: boolean): Goal
     rate: json["rate"] == null ? undefined : json["rate"],
     savedAmount: json["savedAmount"] == null ? undefined : json["savedAmount"],
     remaining: json["remaining"] == null ? undefined : json["remaining"],
+    isArchived: json["isArchived"] == null ? undefined : json["isArchived"],
   };
 }
 
@@ -146,5 +153,6 @@ export function GoalToJSONTyped(value?: Goal | null, ignoreDiscriminator: boolea
     rate: value["rate"],
     savedAmount: value["savedAmount"],
     remaining: value["remaining"],
+    isArchived: value["isArchived"],
   };
 }

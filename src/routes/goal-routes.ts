@@ -13,3 +13,4 @@ goalRouter.post("/:goalId/unarchive", GoalController.unarchiveOne);
 
 export const goalListRouter = express.Router({ mergeParams: true });
 goalListRouter.get("/", paginationHandler, GoalController.getAll);
+goalListRouter.get("/archived", paginationHandler, GoalController.getArchived);
