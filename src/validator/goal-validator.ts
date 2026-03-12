@@ -29,6 +29,7 @@ const filterSchema = z
       "SortBy should be one of : startingDate, endingDate, amount, createdAt",
     ),
     sort: z.refine((sort: string) => !sort || ["asc", "desc"].includes(sort), "SortBy should be one of : asc, desc"),
+    isArchived: z.boolean().optional(),
   })
   .refine(
     ({ startingDateBeginning, startingDateEnding }: any) =>

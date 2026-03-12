@@ -34,8 +34,15 @@ export class GoalServices {
     getGoalById.isArchived = true;
     return await getPrismaClient().goal.update({ data: getGoalById, where: { id, accountId } });
   }
+
+  static async unarchiveOneById(accountId: string, id: string) {
+    const getGoalById = await getPrismaClient().goal.findFirst({ where: { id, accountId } });
+    if (!getGoalById) throw new ApiError(`Goal with id=${id} not found`, 404);
+    getGoalById.isArchived = false;
+    return await getPrismaClient().goal.update({ data: getGoalById, where: { id, accountId } });
+  }
   static async getAll(accountId: string, query: GoalFilters) {
-    const { page, pageSize, name = "", walletId, startingDateBeginning, endingDateBeginning, endingDateEnding, startingDateEnding, sort, sortBy, maxAmount, minAmount } = query;
+    const { page, pageSize, name = "", walletId, startingDateBeginning, endingDateBeginning, endingDateEnding, startingDateEnding, sort, sortBy, maxAmount, minAmount, isArchived } = query;
 
     const where = {
       accountId,
@@ -44,7 +51,7 @@ export class GoalServices {
       endingDate: { ...filterIfNotNullDate("gte", startingDateBeginning), ...filterIfNotNullDate("lte", startingDateEnding) },
       startingDate: { ...filterIfNotNullDate("gte", endingDateBeginning), ...filterIfNotNullDate("lte", endingDateEnding) },
       amount: { ...filterIfNotNullNumber("gte", minAmount), ...filterIfNotNullNumber("lte", maxAmount) },
-      isArchived: false,
+      ...filterIfNotNull("isArchived", isArchived !== undefined ? isArchived : false),
     };
 
     const values = await getPrismaClient().goal.findMany({
