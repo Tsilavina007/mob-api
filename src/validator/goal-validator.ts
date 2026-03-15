@@ -26,7 +26,7 @@ const filterSchema = z
     maxAmount: z.custom((value) => !value || /^-?\d+(\.\d+)?$/.test(String(value)), "Max amount must be a valid number"),
     sortBy: z.refine(
       (sortBy: string) => !sortBy || ["startingDate", "endingDate", "amount", "createdAt", "name"].includes(sortBy),
-      "SortBy should be one of : startingDate, endingDate, amount, createdAt",
+      "SortBy should be one of : startingDate, endingDate, amount, createdAt, name",
     ),
     sort: z.refine((sort: string) => !sort || ["asc", "desc"].includes(sort), "SortBy should be one of : asc, desc"),
   })

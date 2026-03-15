@@ -35,14 +35,14 @@ export class GoalServices {
     return await getPrismaClient().goal.update({ data: getGoalById, where: { id, accountId } });
   }
   static async getAll(accountId: string, query: GoalFilters) {
-    const { page, pageSize, name = "", walletId, startingDateBeginning, endingDateBeginning, endingDateEnding, startingDateEnding, sort, sortBy, maxAmount, minAmount } = query;
+    const { page, pageSize, name = "", walletId, startingDateBeginning, endingDateBeginning, endingDateEnding, startingDateEnding, sort = "desc", sortBy = "createdAt", maxAmount, minAmount } = query;
 
     const where = {
       accountId,
       ...filterIfNotNull("walletId", walletId),
       name: { contains: name },
-      endingDate: { ...filterIfNotNullDate("gte", startingDateBeginning), ...filterIfNotNullDate("lte", startingDateEnding) },
-      startingDate: { ...filterIfNotNullDate("gte", endingDateBeginning), ...filterIfNotNullDate("lte", endingDateEnding) },
+      startingDate: { ...filterIfNotNullDate("gte", startingDateBeginning), ...filterIfNotNullDate("lte", startingDateEnding) },
+      endingDate: { ...filterIfNotNullDate("gte", endingDateBeginning), ...filterIfNotNullDate("lte", endingDateEnding) },
       amount: { ...filterIfNotNullNumber("gte", minAmount), ...filterIfNotNullNumber("lte", maxAmount) },
       isArchived: false,
     };
